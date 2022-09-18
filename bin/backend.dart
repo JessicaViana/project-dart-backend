@@ -1,13 +1,14 @@
 import 'dart:async';
 
+import 'package:backend/service.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf;
 
 void main(List<String> arguments) async {
-  final pipeline = Pipeline().addMiddleware(log());
+  final service = Service();
 
   final server = await shelf.serve(
-    pipeline.addHandler(handler),
+    service.handler,
     '0.0.0.0',
     8080,
   );
