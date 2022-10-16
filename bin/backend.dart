@@ -1,36 +1,21 @@
-import 'dart:async';
-
-import 'package:backend/service.dart';
 import 'package:shelf/shelf.dart';
-import 'package:shelf/shelf_io.dart' as shelf;
+
+import 'api/blog_api.dart';
+import 'api/login_api.dart';
+import 'infra/custom_server.dart';
 
 void main(List<String> arguments) async {
-  final service = Service();
+  final handlerCascade = Cascade()
+      .add(
+        BlogApi().blog,
+      )
+      .add(
+        LoginApi().login,
+      );
 
-  final server = await shelf.serve(
-    service.handler,
-    '0.0.0.0',
-    8080,
-  );
+  final handlerPipeline = Pipeline()
+      .addMiddleware(logRequests())
+      .addHandler((handlerCascade.handler));
 
-  print('Online - ${server.address.host}:${server.port}');
-}
-
-FutureOr<Response> handler(Request request) {
-  final response = Response(200, body: "html");
-  return response;
-}
-
-Middleware log() {
-  return (handler) {
-    return (request) async {
-      print('solicitado: ${request.url}');
-      //antes de executar
-      var response = await handler(request);
-      //depois de executar
-      print('resposta: ${response.statusCode}');
-
-      return response;
-    };
-  };
+  await CustomServer().inicialize(handlerPipeline);
 }
