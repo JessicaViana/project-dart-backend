@@ -15,13 +15,15 @@ class BlogApi {
     router.get('/blog/inicial', (Request req) {
       return responseOk(req);
     });
-    router.get('/blog/noticias', (Request req) {
+    router.post('/blog/noticias', (Request req) {
       return responseOk(req);
     });
-    router.get('/blog/novidades', (Request req) {
+    router.put('/blog/novidades', (Request req) {
+      String? id = req.url.queryParameters['id'];
       return responseOk(req);
     });
-    router.get('/blog/eventos', (Request req) {
+    router.delete('/blog/eventos', (Request req) {
+      String? id = req.url.queryParameters['id'];
       return responseOk(req);
     });
 
