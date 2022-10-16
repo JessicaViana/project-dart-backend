@@ -1,14 +1,15 @@
 import 'package:shelf/shelf.dart';
 
-import 'api/blog_api.dart';
-import 'api/login_api.dart';
+import 'apis/blog_api.dart';
+import 'apis/login_api.dart';
 import 'infra/custom_server.dart';
 import 'infra/utils/custom_env_helper.dart';
+import 'services/news_service.dart';
 
 void main(List<String> arguments) async {
   final handlerCascade = Cascade()
       .add(
-        BlogApi().blog,
+        BlogApi(NewsService()).blog,
       )
       .add(
         LoginApi().login,
