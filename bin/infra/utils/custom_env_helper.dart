@@ -3,8 +3,19 @@ import 'dart:io';
 import 'string_helper.dart';
 
 class CustomEnvHelper {
+  static String _file = '.env';
+
+  CustomEnvHelper._({
+    required String file,
+  });
+
+  factory CustomEnvHelper.fromFile(String file) {
+    _file = file;
+    return CustomEnvHelper._(file: file);
+  }
+
   static Future<String> _loadEnvFile() async {
-    return await File('.env').readAsString();
+    return await File(_file).readAsString();
   }
 
   static Map<String, String> _envFileDecoded = {};
