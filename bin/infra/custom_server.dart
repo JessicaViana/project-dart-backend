@@ -2,10 +2,11 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
 
 class CustomServer {
-  Future<void> inicialize(Handler handler) async {
-    final String address = 'localhost';
-    final int port = 8080;
-
+  Future<void> inicialize({
+    required String address,
+    required int port,
+    required Handler handler,
+  }) async {
     await io.serve(
       handler,
       address,
