@@ -1,24 +1,19 @@
-import 'dart:convert';
-
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
+import '../infra/security/security_service.dart';
+
 class LoginApi {
   final Router router = Router();
+  final SecurityService _securityService;
+
+  LoginApi(this._securityService);
 
   Handler get login {
     router.post('/login', (Request req) async {
-      final String reqBody = await req.readAsString();
-      final Map loginData = jsonDecode(reqBody);
-
-      final String user = loginData['user'];
-      final String password = loginData['password'];
-
-      if (user == 'susan' && password == '123') {
-        return Response.ok('Seja bem vindo');
-      } else {
-        return Response.forbidden('usuário ou senha inválidos');
-      }
+      var token = await _securityService.generateJWT('1');
+      var result = await _securityService.verifyJWT('token');
+      return Response.ok(token);
     });
     return router;
   }
