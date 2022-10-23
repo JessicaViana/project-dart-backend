@@ -22,9 +22,9 @@ class NewsService implements GenericService<NewsModel> {
 
   @override
   Future<bool> saveOrUpdate(NewsModel value) async {
-    bool existInDB = _fakeDB.any((element) => element.id == value.id);
-    if (existInDB) {
-      _fakeDB.insert(value.id, value);
+    int index = _fakeDB.indexWhere(((element) => element.id == value.id));
+    if (index >= 0) {
+      _fakeDB.insert(index, value);
     } else {
       _fakeDB.add(value);
     }

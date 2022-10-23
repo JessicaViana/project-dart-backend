@@ -5,17 +5,19 @@ import 'package:shelf_router/shelf_router.dart';
 
 import '../models/news_model.dart';
 import '../services/generic_service.dart';
+import 'api.dart';
 
-class BlogApi {
+class BlogApi extends Api {
   final GenericService<NewsModel> _service;
 
   BlogApi(this._service);
 
   String responseBody(String title) => '<h1>$title</h1>';
-  //Map<String, String> responseHeaders = {'content-type': 'text/html'};
 
-  Handler get blog {
+  @override
+  Handler getHandler({List<Middleware>? middlewares}) {
     final Router router = Router();
+
     Response responseOk(Request req) => Response.ok(
           responseBody(req.url.pathSegments.last),
         );
@@ -55,6 +57,9 @@ class BlogApi {
       },
     );
 
-    return router;
+    return createHandler(
+      router: router,
+      middlewares: middlewares,
+    );
   }
 }
