@@ -3,6 +3,7 @@ import 'package:shelf/shelf.dart';
 import 'apis/blog_api.dart';
 import 'apis/login_api.dart';
 import 'infra/custom_server.dart';
+import 'infra/dependency_injector/dependency_injector.dart';
 import 'infra/middleware_interception.dart';
 import 'infra/security/security_service.dart';
 import 'infra/security/security_service_impl.dart';
@@ -10,7 +11,11 @@ import 'infra/utils/custom_env_helper.dart';
 import 'services/news_service.dart';
 
 void main(List<String> arguments) async {
-  SecurityService securityService = SecurityServiceImpl();
+  DependencyInjector di = DependencyInjector();
+
+  di.register<SecurityService>(() => SecurityServiceImpl, isSingleton: true);
+
+  var securityService = di.get<SecurityService>();
 
   final handlerCascade = Cascade()
       .add(
