@@ -13,7 +13,7 @@ import 'services/news_service.dart';
 void main(List<String> arguments) async {
   DependencyInjector di = DependencyInjector();
 
-  di.register<SecurityService>(() => SecurityServiceImpl, isSingleton: true);
+  di.register<SecurityService>(() => SecurityServiceImpl(), isSingleton: true);
 
   var securityService = di.get<SecurityService>();
 
