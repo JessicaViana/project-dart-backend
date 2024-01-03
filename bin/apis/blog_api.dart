@@ -15,7 +15,10 @@ class BlogApi extends Api {
   String responseBody(String title) => '<h1>$title</h1>';
 
   @override
-  Handler getHandler({List<Middleware>? middlewares}) {
+  Handler getHandler({
+    List<Middleware>? middlewares,
+    bool isProtected = false,
+  }) {
     final Router router = Router();
 
     Response responseOk(Request req) => Response.ok(
@@ -60,6 +63,7 @@ class BlogApi extends Api {
     return createHandler(
       router: router,
       middlewares: middlewares,
+      isProtected: isProtected,
     );
   }
 }

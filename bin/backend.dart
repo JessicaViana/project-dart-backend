@@ -19,19 +19,16 @@ void main(List<String> arguments) async {
 
   final handlerCascade = Cascade()
       .add(
-        BlogApi(NewsService()).getHandler(middlewares: [
-          securityService.authorization,
-          securityService.validateJWT,
-        ]),
+        LoginApi(securityService).getHandler(),
       )
       .add(
-        LoginApi(securityService).getHandler(middlewares: []),
+        BlogApi(NewsService()).getHandler(isProtected: true),
       );
 
-  final handlerPipeline = Pipeline()
+  final handlerPipeline = Pipeline() //* Middlewares Globais
       .addMiddleware(logRequests())
       .addMiddleware(MiddlewareInterception().middleware)
-      // .addMiddleware(securityService.authorization)
+      // .addMiddleware(securityService.authorization) //gloval
       // .addMiddleware(securityService.validateJWT)
       .addHandler((handlerCascade.handler));
 

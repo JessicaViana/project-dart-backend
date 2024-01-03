@@ -12,7 +12,8 @@ class DependencyInjector {
 
   final _instanceMap = <Type, _InstanceGenerator<Object>>{};
 
-  //register
+  //* register
+
   void register<T>(
     InstanceCreator<T> instance, {
     bool isSingleton = false,
@@ -20,7 +21,8 @@ class DependencyInjector {
     _instanceMap[T] = _InstanceGenerator(instance, isSingleton);
   }
 
-  //get
+  //* get
+
   T get<T extends Object>() {
     final instance = _instanceMap[T]?.getInstance();
     if (instance != null && instance is T) return instance;
