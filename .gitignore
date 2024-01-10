@@ -8,5 +8,6 @@ build/
 .vscode
 .fvm
 .env
+.sql
 
 volumes
