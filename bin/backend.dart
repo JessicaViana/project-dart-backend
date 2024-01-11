@@ -1,8 +1,8 @@
-import 'package:mysql1/mysql1.dart';
 import 'package:shelf/shelf.dart';
 
 import 'apis/blog_api.dart';
 import 'apis/login_api.dart';
+import 'dao/user_dao.dart';
 import 'infra/custom_server.dart';
 import 'infra/database/db_connection.dart';
 import 'infra/dependency_injector/injection.dart';
@@ -13,14 +13,30 @@ import 'models/user_model.dart';
 void main(List<String> arguments) async {
   final di = Injection.initialize();
 
-  MySqlConnection connection = await di.get<DbConnection>().connection;
+  var conexao = di.get<DbConnection>();
+  var userDAO = UserDAO(conexao);
 
-  var results = await connection.query('SELECT * from usuarios');
+  var userMarcos = UserModel.create()
+    ..id = 5
+    ..name = 'Marcos'
+    ..email = 'marquinhos@email.com'
+    ..password = '321';
 
-  for (var row in results) {
-    var user = UserModel.fromMap(row.fields);
-    print(user.toString());
-  }
+  // print('CREATE'); // user(Marcos ...)
+  // await userDAO.create(userMarcos).then(print);
+  // print('FINDALL'); // todos os users
+  //   await userDAO.create(userMarcos).then(print);
+  // print('DELETE'); //! true
+  // await userDAO.delete(4).then(print);
+  print('FINDALL'); // todos os users
+  await userDAO.findAll().then(print);
+  print('UPDATE'); //! true
+  userMarcos
+    ..isActive = false
+    ..name = 'Marcos Vinicius';
+  await userDAO.update(userMarcos).then(print);
+  print('FINDONE');
+  await userDAO.findOne(5).then(print);
 
   final handlerCascade = Cascade()
       .add(
