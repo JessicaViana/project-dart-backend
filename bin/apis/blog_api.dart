@@ -27,8 +27,8 @@ class BlogApi extends Api {
 
     router.get(
       '/blog/news',
-      (Request req) {
-        List<NewsModel> news = _service.findAll();
+      (Request req) async {
+        List<NewsModel> news = await _service.findAll();
         List<Map> newsMap = news.map((e) => e.toJson()).toList();
         return Response.ok(jsonEncode(newsMap));
       },

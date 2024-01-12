@@ -10,12 +10,12 @@ class NewsService implements GenericService<NewsModel> {
   }
 
   @override
-  List<NewsModel> findAll() {
+  Future<List<NewsModel>> findAll() async {
     return _fakeDB;
   }
 
   @override
-  NewsModel findOne(int id) {
+  Future<NewsModel> findOne(int id) async {
     NewsModel element = _fakeDB.firstWhere((e) => e.id == id);
     return element;
   }
