@@ -1,9 +1,11 @@
 import '../../apis/blog_api.dart';
 import '../../apis/login_api.dart';
+import '../../apis/user_api.dart';
 import '../../dao/user_dao.dart';
 import '../../models/news_model.dart';
 import '../../services/generic_service.dart';
 import '../../services/news_service.dart';
+import '../../services/user_service.dart';
 import '../database/db_connection.dart';
 import '../database/db_connection_impl.dart';
 import '../security/security_service.dart';
@@ -22,6 +24,8 @@ class Injection {
 
     //* User
     di.register<UserDAO>(() => UserDAO(di.get<DbConnection>()));
+    di.register<UserService>(() => UserService(di.get<UserDAO>()));
+    di.register<UserApi>(() => UserApi(di.get<UserService>()));
 
     return di;
   }

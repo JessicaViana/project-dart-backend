@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class UserModel {
   int? id;
   String? name;
@@ -6,6 +7,16 @@ class UserModel {
   bool? isActive;
   DateTime? dtCreated;
   DateTime? dtUpdated;
+
+  UserModel({
+    this.id,
+    this.name,
+    this.email,
+    this.password,
+    this.isActive,
+    this.dtCreated,
+    this.dtUpdated,
+  });
 
   UserModel.create({
     this.id,
@@ -30,5 +41,12 @@ class UserModel {
       dtCreated: map['dt_criacao'],
       dtUpdated: map['dt_autalizacao'],
     );
+  }
+
+  factory UserModel.fromRequest(Map map) {
+    return UserModel()
+      ..name = map['name']
+      ..email = map['email']
+      ..password = map['password'];
   }
 }
