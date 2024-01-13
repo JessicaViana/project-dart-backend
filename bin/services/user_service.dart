@@ -1,3 +1,5 @@
+import 'package:password_dart/password_dart.dart';
+
 import '../dao/user_dao.dart';
 import '../models/user_model.dart';
 import 'generic_service.dart';
@@ -20,6 +22,8 @@ class UserService implements GenericService<UserModel> {
 
   @override
   Future<bool> saveOrUpdate(UserModel value) async {
+    value.password =
+        Password.hash(value.password!, PBKDF2()); //! implementar salt
     return value.id == null
         ? await _userDAO.create(value)
         : await _userDAO.update(value);
