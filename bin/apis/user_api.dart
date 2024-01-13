@@ -38,6 +38,8 @@ class UserApi extends Api {
       return Response.ok(users);
     });
 
+    //TODO Implementar delete
+
     return createHandler(
       router: router,
       middlewares: middlewares,

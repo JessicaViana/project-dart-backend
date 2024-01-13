@@ -20,10 +20,13 @@ class UserService implements GenericService<UserModel> {
   @override
   Future<UserModel> findOne(int id) async => _userDAO.findOne(id);
 
+  Future<UserModel?> findByEmail(String email) async =>
+      _userDAO.findByEmail(email);
+
   @override
   Future<bool> saveOrUpdate(UserModel value) async {
     value.password =
-        Password.hash(value.password!, PBKDF2()); //! implementar salt
+        Password.hash(value.password!, PBKDF2()); //TODO implementar salt
     return value.id == null
         ? await _userDAO.create(value)
         : await _userDAO.update(value);
